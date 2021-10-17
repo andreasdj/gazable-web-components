@@ -1,9 +1,14 @@
+import { GazableButtonElement } from './gazable-button.js';
+
+// There is not option currently to define a module relative css url, use import.meta.url to overcome this
+const cssUrl = import.meta.url.replace(/\.js$/, '.css');
+
 const gazableSquareButtonTemplate = document.createElement('template');
 gazableSquareButtonTemplate.innerHTML = `
-  <link href="web-components/gazable-square-button.css" rel="stylesheet">
+  <link href="${cssUrl}" rel="stylesheet">
   <div class="inner-content"><slot></slot></div>`;
 
-class GazableSquareButtonElement extends GazableButtonElement {
+export class GazableSquareButtonElement extends GazableButtonElement {
    dwellAnimation = undefined;
    
    constructor() {
@@ -51,8 +56,9 @@ class GazableSquareButtonElement extends GazableButtonElement {
     this.dwellAnimation = undefined;
   }
 }
-customElements.define('gazable-square-button', GazableSquareButtonElement);
-
+if (!customElements.get('gazable-square-button')) {
+  customElements.define('gazable-square-button', GazableSquareButtonElement);
+}
 /*
   https://css-tricks.com/custom-state-pseudo-classes-in-chrome/
   

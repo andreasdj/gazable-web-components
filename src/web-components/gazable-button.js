@@ -1,4 +1,4 @@
-class GazableButtonElement extends HTMLElement {
+export class GazableButtonElement extends HTMLElement {
    _activateTimeout = undefined;
    _defaultDwellTime = 1000;
    _defaultActivationAnimationTime = 200;
@@ -110,4 +110,6 @@ class GazableButtonElement extends HTMLElement {
       this.setAttribute('activation-animation-time', dwellTime);
    }
 }
-customElements.define('gazable-button', GazableButtonElement);
+if (!customElements.get('gazable-button')) {
+   customElements.define('gazable-button', GazableButtonElement);
+}
