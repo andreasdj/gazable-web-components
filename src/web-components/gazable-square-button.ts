@@ -1,20 +1,22 @@
-import { GazableButtonElement } from './gazable-button.js';
+import { GazableButtonElement } from './gazable-button';
 
 // There is not option currently to define a module relative css url, use import.meta.url to overcome this
-const cssUrl = import.meta.url.replace(/\.js$/, '.css');
+// const cssUrl = import.meta.url.replace(/\.js$/, '.css');
 
 const gazableSquareButtonTemplate = document.createElement('template');
 gazableSquareButtonTemplate.innerHTML = `
-  <link href="${cssUrl}" rel="stylesheet">
+  <link href="gazable-square-button.css" rel="stylesheet">
   <div class="inner-content"><slot></slot></div>`;
 
 export class GazableSquareButtonElement extends GazableButtonElement {
-   dwellAnimation = undefined;
+   dwellAnimation: Animation | undefined = undefined;
+   innerContent: HTMLElement;
    
    constructor() {
       super();
 
       this.attachShadow({ mode: 'open' }).append(gazableSquareButtonTemplate.content.cloneNode(true));
+      this.innerContent = this.getElementsByClassName('inner-content')[0] as HTMLElement;
    }
 
    startActivationAnimation(){
@@ -26,7 +28,33 @@ export class GazableSquareButtonElement extends GazableButtonElement {
     ],
     {
       duration: this.activationAnimationTime
-    })
+    });
+
+    this.innerContent.animate(
+      [
+         {
+            borderColor: `rgba(var(--button-activation-color, #59f), 0.5)`,
+            background: `rgba(var(--button-activation-color, #59f), var(--button-activation-opacity, 0.3))`,
+         },
+         {
+            borderColor: `rgba(var(--button-activation-color, #59f), 0.5)`,
+            background: `rgba(var(--button-activation-color, #59f), 0.3)`,
+         },
+         {
+            borderColor: `rgba(var(--button-activation-color, #59f), 0.5)`,
+            background: `rgba(var(--button-activation-color, #59f), 1)`,
+         },
+         {
+            borderColor: `rgba(var(--button-activation-color, #59f), 0.5)`,
+            background: `rgba(var(--button-activation-color, #59f), 1)`,
+         },
+      ],
+      {
+         duration: this.activationAnimationTime,
+         easing: 'ease',
+         fill: 'backwards',
+      }
+   );
   }
   onActivate(){
     this.startActivationAnimation();
@@ -59,6 +87,7 @@ export class GazableSquareButtonElement extends GazableButtonElement {
 if (!customElements.get('gazable-square-button')) {
   customElements.define('gazable-square-button', GazableSquareButtonElement);
 }
+
 /*
   https://css-tricks.com/custom-state-pseudo-classes-in-chrome/
   

@@ -1,5 +1,5 @@
 export class GazableButtonElement extends HTMLElement {
-   _activateTimeout = undefined;
+   _activateTimeout: number | undefined = undefined;
    _defaultDwellTime = 1000;
    _defaultActivationAnimationTime = 200;
 
@@ -24,17 +24,17 @@ export class GazableButtonElement extends HTMLElement {
       this.style.setProperty('--activation-animation-time', `${this.activationAnimationTime}ms`);
    }
 
-   #onGazeOver = (e) => {
-      this.setAttribute('gaze-focused', true);
+   #onGazeOver = () => {
+      this.setAttribute('gaze-focused', true.toString());
       this.startDwell();
    };
 
-   #onGazeOut = (e) => {
+   #onGazeOut = () => {
       this.removeAttribute('gaze-focused');
       this.stopDwell();
    };
 
-   #onClick = (e) => {
+   #onClick = (e: MouseEvent) => {
       if(e.target === this) {
          this.onActivate();
       }
@@ -46,7 +46,8 @@ export class GazableButtonElement extends HTMLElement {
 
    startDwell() {
       if (this._activateTimeout) clearTimeout(this._activateTimeout);
-      this._activateTimeout = setTimeout(() => {
+      
+      this._activateTimeout = window.setTimeout(() => {
          this.click();
          this._activateTimeout = undefined;
       }, this.dwellTime);
@@ -54,7 +55,7 @@ export class GazableButtonElement extends HTMLElement {
 
    stopDwell() {
       if (this._activateTimeout !== undefined) {
-         clearTimeout(this._activateTimeout);
+         window.clearTimeout(this._activateTimeout);
          this._activateTimeout = undefined;
       }
       this.blur();
@@ -70,18 +71,20 @@ export class GazableButtonElement extends HTMLElement {
 
    set gazeInteractable(val) {
       if (val) {
-         this.setAttribute('data-tdx-interactor', true);
+         this.setAttribute('data-tdx-interactor', true.toString());
       } else {
          this.removeAttribute('data-tdx-interactor');
       }
    }
 
    get dwellTime() {
-      const dwellTime = parseInt(this.getAttribute('dwell-time'));
+      const dwellTime = parseInt(this.getAttribute('dwell-time') as string);
       if (!isNaN(dwellTime)) {
          if (dwellTime < 0) console.error(`'dwell-time' must be larger than zero`);
          return dwellTime;
       }
+
+      // @ts-ignore
       return window?.eyeTracking?.systemDwellTime || this._defaultDwellTime;
    }
 
@@ -89,16 +92,20 @@ export class GazableButtonElement extends HTMLElement {
       const dwellTime = parseInt(val);
       if (isNaN(dwellTime)) {
          console.error(`Invalid dwell time value ${val}`);
+         return;
       }
-      this.setAttribute('dwell-time', dwellTime);
+
+      this.setAttribute('dwell-time', dwellTime.toString());
    }
 
    get activationAnimationTime() {
-      const activationAnimationTime = parseInt(this.getAttribute('activation-animation-time'));
+      const activationAnimationTime = parseInt(this.getAttribute('activation-animation-time') as string);
       if (!isNaN(activationAnimationTime)) {
          if (activationAnimationTime < 0) console.error(`'activation-animation-time' must be larger than zero`);
          return activationAnimationTime;
       }
+
+      // @ts-ignore
       return window?.eyeTracking?.activationAnimationTime || this._defaultActivationAnimationTime;
    }
 
@@ -106,8 +113,10 @@ export class GazableButtonElement extends HTMLElement {
       const activationAnimationTime = parseInt(val);
       if (isNaN(activationAnimationTime)) {
          console.error(`Invalid activation animation time value ${val}`);
+         return;
       }
-      this.setAttribute('activation-animation-time', dwellTime);
+
+      this.setAttribute('activation-animation-time', activationAnimationTime.toString());
    }
 }
 if (!customElements.get('gazable-button')) {
