@@ -1,17 +1,13 @@
 import { GazableButtonElement } from './gazable-button';
-
-// There is not option currently to define a module relative css url, use import.meta.url to overcome this
-// const cssUrl = import.meta.url.replace(/\.js$/, '.css');
+import htmlTemplate from './gazable-square-button-template.html';
 
 const gazableSquareButtonTemplate = document.createElement('template');
-gazableSquareButtonTemplate.innerHTML = `
-  <link href="gazable-square-button.css" rel="stylesheet">
-  <div class="inner-content"><slot></slot></div>`;
+gazableSquareButtonTemplate.innerHTML = htmlTemplate;
 
 export class GazableSquareButtonElement extends GazableButtonElement {
    dwellAnimation: Animation | undefined = undefined;
    innerContent: HTMLElement;
-   
+
    constructor() {
       super();
 
@@ -19,78 +15,81 @@ export class GazableSquareButtonElement extends GazableButtonElement {
       this.innerContent = this.getElementsByClassName('inner-content')[0] as HTMLElement;
    }
 
-   startActivationAnimation(){
-    this.animate([
-      {border:'0px'},
-      {border:'5px solid transparent',backgroundColor:'transparent', offset: 0.5},
-      {border:'0px',backgroundColor:'rgba(var(--button-activation-color, #59f), var(--button-activation-opacity, 0.3))', offset: 0.75},
-      {backgroundColor: 'transparent'}
-    ],
-    {
-      duration: this.activationAnimationTime
-    });
-
-    this.innerContent.animate(
-      [
+   startActivationAnimation() {
+      this.animate(
+         [
+            { border: '0px' },
+            { border: '5px solid transparent', backgroundColor: 'transparent', offset: 0.5 },
+            {
+               border: '0px',
+               backgroundColor: 'rgba(var(--button-activation-color, #59f), var(--button-activation-opacity, 0.3))',
+               offset: 0.75,
+            },
+            { backgroundColor: 'transparent' },
+         ],
          {
-            borderColor: `rgba(var(--button-activation-color, #59f), 0.5)`,
-            background: `rgba(var(--button-activation-color, #59f), var(--button-activation-opacity, 0.3))`,
-         },
-         {
-            borderColor: `rgba(var(--button-activation-color, #59f), 0.5)`,
-            background: `rgba(var(--button-activation-color, #59f), 0.3)`,
-         },
-         {
-            borderColor: `rgba(var(--button-activation-color, #59f), 0.5)`,
-            background: `rgba(var(--button-activation-color, #59f), 1)`,
-         },
-         {
-            borderColor: `rgba(var(--button-activation-color, #59f), 0.5)`,
-            background: `rgba(var(--button-activation-color, #59f), 1)`,
-         },
-      ],
-      {
-         duration: this.activationAnimationTime,
-         easing: 'ease',
-         fill: 'backwards',
-      }
-   );
-  }
-  onActivate(){
-    this.startActivationAnimation();
-    super.onActivate();
-  }
+            duration: this.activationAnimationTime,
+         }
+      );
 
-  startDwell() {
-    this.dwellAnimation = this.animate(
-      [
-        { backgroundPosition: 'right bottom' },
-        { backgroundPosition: 'left bottom' }
-      ],
-      {
-        duration: this.dwellTime,
-        iterations: 1,
-        easing: 'linear',
-        fill: 'none'
-      }
-    );
+      this.innerContent.animate(
+         [
+            {
+               borderColor: `rgba(var(--button-activation-color, #59f), 0.5)`,
+               background: `rgba(var(--button-activation-color, #59f), var(--button-activation-opacity, 0.3))`,
+            },
+            {
+               borderColor: `rgba(var(--button-activation-color, #59f), 0.5)`,
+               background: `rgba(var(--button-activation-color, #59f), 0.3)`,
+            },
+            {
+               borderColor: `rgba(var(--button-activation-color, #59f), 0.5)`,
+               background: `rgba(var(--button-activation-color, #59f), 1)`,
+            },
+            {
+               borderColor: `rgba(var(--button-activation-color, #59f), 0.5)`,
+               background: `rgba(var(--button-activation-color, #59f), 1)`,
+            },
+         ],
+         {
+            duration: this.activationAnimationTime,
+            easing: 'ease',
+            fill: 'backwards',
+         }
+      );
+   }
+   override onActivate() {
+      this.startActivationAnimation();
+      super.onActivate();
+   }
 
-    // this.dwellAnimation.oncancel = (e)=> console.log('oncancel', e);
-    this.dwellAnimation.onfinish = (e) => this.click();
-  }
+   override startDwell() {
+      this.dwellAnimation = this.animate(
+         [{ backgroundPosition: 'right bottom' }, { backgroundPosition: 'left bottom' }],
+         {
+            duration: this.dwellTime,
+            iterations: 1,
+            easing: 'linear',
+            fill: 'none',
+         }
+      );
 
-  stopDwell(){
-    this.dwellAnimation?.cancel();
-    this.dwellAnimation = undefined;
-  }
+      // this.dwellAnimation.oncancel = (e)=> console.log('oncancel', e);
+      this.dwellAnimation.onfinish = () => this.click();
+   }
+
+   override stopDwell() {
+      this.dwellAnimation?.cancel();
+      this.dwellAnimation = undefined;
+   }
 }
 if (!customElements.get('gazable-square-button')) {
-  customElements.define('gazable-square-button', GazableSquareButtonElement);
+   customElements.define('gazable-square-button', GazableSquareButtonElement);
 }
 
 /*
   https://css-tricks.com/custom-state-pseudo-classes-in-chrome/
-  
+
   ctor
     // 1. instantiate the element’s “internals”
     this._internals = this.attachInternals();

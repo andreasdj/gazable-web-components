@@ -35,10 +35,10 @@ export class GazableButtonElement extends HTMLElement {
    };
 
    #onClick = (e: MouseEvent) => {
-      if(e.target === this) {
+      if (e.target === this) {
          this.onActivate();
       }
-   }
+   };
 
    onActivate() {
       this.#onGazeOut();
@@ -46,7 +46,7 @@ export class GazableButtonElement extends HTMLElement {
 
    startDwell() {
       if (this._activateTimeout) clearTimeout(this._activateTimeout);
-      
+
       this._activateTimeout = window.setTimeout(() => {
          this.click();
          this._activateTimeout = undefined;
@@ -78,7 +78,7 @@ export class GazableButtonElement extends HTMLElement {
    }
 
    get dwellTime() {
-      const dwellTime = parseInt(this.getAttribute('dwell-time') as string);
+      const dwellTime = Number(this.getAttribute('dwell-time') as string);
       if (!isNaN(dwellTime)) {
          if (dwellTime < 0) console.error(`'dwell-time' must be larger than zero`);
          return dwellTime;
@@ -89,7 +89,7 @@ export class GazableButtonElement extends HTMLElement {
    }
 
    set dwellTime(val) {
-      const dwellTime = parseInt(val);
+      const dwellTime = Number(val);
       if (isNaN(dwellTime)) {
          console.error(`Invalid dwell time value ${val}`);
          return;
@@ -99,7 +99,7 @@ export class GazableButtonElement extends HTMLElement {
    }
 
    get activationAnimationTime() {
-      const activationAnimationTime = parseInt(this.getAttribute('activation-animation-time') as string);
+      const activationAnimationTime = Number(this.getAttribute('activation-animation-time') as string);
       if (!isNaN(activationAnimationTime)) {
          if (activationAnimationTime < 0) console.error(`'activation-animation-time' must be larger than zero`);
          return activationAnimationTime;
@@ -110,7 +110,7 @@ export class GazableButtonElement extends HTMLElement {
    }
 
    set activationAnimationTime(val) {
-      const activationAnimationTime = parseInt(val);
+      const activationAnimationTime = Number(val);
       if (isNaN(activationAnimationTime)) {
          console.error(`Invalid activation animation time value ${val}`);
          return;
