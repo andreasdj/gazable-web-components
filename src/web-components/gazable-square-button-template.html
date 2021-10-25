@@ -1,13 +1,13 @@
 <style>
    :host {
       display: inline-block;
-      /* border: 1px solid transparent; */
+      border: var(--button-border, 1px solid transparent);
       position: relative;
-      border-radius: var(--button-border-radius, 3px);
+      border-radius: var(--button-border-radius, 3pt);
       box-sizing: border-box;
       width: var(--button-width, 13.5vw);
       height: var(--button-height, 5.4vw);
-      background-color: var(--button-color, transparent);
+      background-color: var(--button-color, rgba(56, 56, 56, 0.5));
       padding: var(--button-dwell-thickness, 0.405vw); /* $square-button-height * 0.075; */
       -webkit-tap-highlight-color: transparent;
    }
@@ -19,41 +19,20 @@
    }
 
    :host([gaze-focused]) {
-      /* border-radius: 0; */
-   }
-
-   :host([gaze-focused]) {
-      background: linear-gradient(to left, var(--button-color, #999) 50%, var(--button-dwell-color, #59f) 50%);
+      border-radius: 0;
+      background: linear-gradient(
+         to left,
+         var(--button-color, rgba(56, 56, 56, 0.5)) 50%,
+         var(--button-dwell-color, #59f) 50%
+      );
       background-size: 200% 200%;
       background-repeat: repeat-y;
       background-position: right bottom;
-      /* animation: square-dwell-animation linear forwards var(--dwell-time, 300ms); */
    }
 
    :host([gaze-activated]) {
-      border-radius: var(--button-border-radius, 3px);
-      /* animation: backgroundActivationAnimation var(--activation-animation-time, 150)ms; */
+      border-radius: var(--button-border-radius, 3pt);
    }
-
-   /* @keyframes backgroundActivationAnimation {
-      0% {
-        border: 0px;
-      }
-
-      50% {
-        border: 5px solid transparent;
-        background-color: transparent;
-      }
-
-      75% {
-        border: 0px;
-        background-color: rgba(var(--button-activation-color, #59f), var(--button-activation-opacity, 0.3));
-      }
-
-      100% {
-        background-color: transparent;
-      }
-    } */
 
    .inner-content {
       color: var(--button-text-color, #fff);
@@ -63,6 +42,7 @@
       height: 100%;
       border-radius: var(--button-border-radius, 3px);
       box-sizing: border-box;
+      font-family: var(--button-font-family, sans-serif);
       /* border: var(--button-inner-border-width, 1px) solid var(--button-inner-border-color, #fff); */
       background-color: var(--button-inner-color, #222);
    }
@@ -76,7 +56,6 @@
    :host([gaze-activated]) .inner-content {
       color: var(--button-activation-text-color, #222);
       border-color: transparent;
-      animation: activationAnimation var(--activation-animation-time, 150) ms ease forwards;
    }
 
    :host([gaze-focused]) .inner-content {
@@ -91,15 +70,6 @@
       display: flex;
       align-items: center;
       justify-content: center;
-   }
-
-   @keyframes square-dwell-animation {
-      from {
-         background-position: right bottom;
-      }
-      to {
-         background-position: left bottom;
-      }
    }
 </style>
 

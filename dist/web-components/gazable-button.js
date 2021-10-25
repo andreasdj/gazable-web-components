@@ -65,7 +65,7 @@ class GazableButtonElement extends HTMLElement {
         }
     }
     get dwellTime() {
-        const dwellTime = Number(this.getAttribute('dwell-time'));
+        const dwellTime = Number.parseInt(this.getAttribute('dwell-time'));
         if (!isNaN(dwellTime)) {
             if (dwellTime < 0)
                 console.error(`'dwell-time' must be larger than zero`);
@@ -73,16 +73,15 @@ class GazableButtonElement extends HTMLElement {
         }
         return window.eyeTracking?.systemDwellTime || this._defaultDwellTime;
     }
-    set dwellTime(val) {
-        const dwellTime = Number(val);
-        if (isNaN(dwellTime)) {
-            console.error(`Invalid dwell time value ${val}`);
+    set dwellTime(value) {
+        if (!Number.isInteger(value)) {
+            console.error(`Invalid dwell time value ${value}`);
             return;
         }
-        this.setAttribute('dwell-time', dwellTime.toString());
+        this.setAttribute('dwell-time', value.toString());
     }
     get activationAnimationTime() {
-        const activationAnimationTime = Number(this.getAttribute('activation-animation-time'));
+        const activationAnimationTime = Number.parseInt(this.getAttribute('activation-animation-time'));
         if (!isNaN(activationAnimationTime)) {
             if (activationAnimationTime < 0)
                 console.error(`'activation-animation-time' must be larger than zero`);
@@ -90,13 +89,12 @@ class GazableButtonElement extends HTMLElement {
         }
         return window.eyeTracking?.activationAnimationTime || this._defaultActivationAnimationTime;
     }
-    set activationAnimationTime(val) {
-        const activationAnimationTime = Number(val);
-        if (isNaN(activationAnimationTime)) {
-            console.error(`Invalid activation animation time value ${val}`);
+    set activationAnimationTime(value) {
+        if (!Number.isInteger(value)) {
+            console.error(`Invalid activation animation time value ${value}`);
             return;
         }
-        this.setAttribute('activation-animation-time', activationAnimationTime.toString());
+        this.setAttribute('activation-animation-time', value.toString());
     }
 }
 if (!customElements.get('gazable-button')) {

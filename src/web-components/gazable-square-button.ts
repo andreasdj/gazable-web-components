@@ -12,7 +12,7 @@ export class GazableSquareButtonElement extends GazableButtonElement {
       super();
 
       this.attachShadow({ mode: 'open' }).append(gazableSquareButtonTemplate.content.cloneNode(true));
-      this.innerContent = this.getElementsByClassName('inner-content')[0] as HTMLElement;
+      this.innerContent = this.shadowRoot?.querySelector('.inner-content') as HTMLElement;
    }
 
    startActivationAnimation() {
@@ -41,10 +41,12 @@ export class GazableSquareButtonElement extends GazableButtonElement {
             {
                borderColor: `rgba(var(--button-activation-color, #59f), 0.5)`,
                background: `rgba(var(--button-activation-color, #59f), 0.3)`,
+               offset: 0.05,
             },
             {
                borderColor: `rgba(var(--button-activation-color, #59f), 0.5)`,
                background: `rgba(var(--button-activation-color, #59f), 1)`,
+               offset: 0.4,
             },
             {
                borderColor: `rgba(var(--button-activation-color, #59f), 0.5)`,

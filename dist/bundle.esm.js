@@ -65,7 +65,7 @@ class GazableButtonElement extends HTMLElement {
         }
     }
     get dwellTime() {
-        const dwellTime = Number(this.getAttribute('dwell-time'));
+        const dwellTime = Number.parseInt(this.getAttribute('dwell-time'));
         if (!isNaN(dwellTime)) {
             if (dwellTime < 0)
                 console.error(`'dwell-time' must be larger than zero`);
@@ -73,16 +73,15 @@ class GazableButtonElement extends HTMLElement {
         }
         return window.eyeTracking?.systemDwellTime || this._defaultDwellTime;
     }
-    set dwellTime(val) {
-        const dwellTime = Number(val);
-        if (isNaN(dwellTime)) {
-            console.error(`Invalid dwell time value ${val}`);
+    set dwellTime(value) {
+        if (!Number.isInteger(value)) {
+            console.error(`Invalid dwell time value ${value}`);
             return;
         }
-        this.setAttribute('dwell-time', dwellTime.toString());
+        this.setAttribute('dwell-time', value.toString());
     }
     get activationAnimationTime() {
-        const activationAnimationTime = Number(this.getAttribute('activation-animation-time'));
+        const activationAnimationTime = Number.parseInt(this.getAttribute('activation-animation-time'));
         if (!isNaN(activationAnimationTime)) {
             if (activationAnimationTime < 0)
                 console.error(`'activation-animation-time' must be larger than zero`);
@@ -90,20 +89,19 @@ class GazableButtonElement extends HTMLElement {
         }
         return window.eyeTracking?.activationAnimationTime || this._defaultActivationAnimationTime;
     }
-    set activationAnimationTime(val) {
-        const activationAnimationTime = Number(val);
-        if (isNaN(activationAnimationTime)) {
-            console.error(`Invalid activation animation time value ${val}`);
+    set activationAnimationTime(value) {
+        if (!Number.isInteger(value)) {
+            console.error(`Invalid activation animation time value ${value}`);
             return;
         }
-        this.setAttribute('activation-animation-time', activationAnimationTime.toString());
+        this.setAttribute('activation-animation-time', value.toString());
     }
 }
 if (!customElements.get('gazable-button')) {
     customElements.define('gazable-button', GazableButtonElement);
 }
 
-var htmlTemplate = "<style>\n   :host {\n      display: inline-block;\n      /* border: 1px solid transparent; */\n      position: relative;\n      border-radius: var(--button-border-radius, 3px);\n      box-sizing: border-box;\n      width: var(--button-width, 13.5vw);\n      height: var(--button-height, 5.4vw);\n      background-color: var(--button-color, transparent);\n      padding: var(--button-dwell-thickness, 0.405vw); /* $square-button-height * 0.075; */\n      -webkit-tap-highlight-color: transparent;\n   }\n\n   :host([disabled]) {\n      cursor: default;\n      pointer-events: none;\n      opacity: var(--button-disabled-opacity, 0.5);\n   }\n\n   :host([gaze-focused]) {\n      /* border-radius: 0; */\n   }\n\n   :host([gaze-focused]) {\n      background: linear-gradient(to left, var(--button-color, #999) 50%, var(--button-dwell-color, #59f) 50%);\n      background-size: 200% 200%;\n      background-repeat: repeat-y;\n      background-position: right bottom;\n      /* animation: square-dwell-animation linear forwards var(--dwell-time, 300ms); */\n   }\n\n   :host([gaze-activated]) {\n      border-radius: var(--button-border-radius, 3px);\n      /* animation: backgroundActivationAnimation var(--activation-animation-time, 150)ms; */\n   }\n\n   /* @keyframes backgroundActivationAnimation {\n      0% {\n        border: 0px;\n      }\n\n      50% {\n        border: 5px solid transparent;\n        background-color: transparent;\n      }\n\n      75% {\n        border: 0px;\n        background-color: rgba(var(--button-activation-color, #59f), var(--button-activation-opacity, 0.3));\n      }\n\n      100% {\n        background-color: transparent;\n      }\n    } */\n\n   .inner-content {\n      color: var(--button-text-color, #fff);\n      position: relative;\n      font-size: var(--button-font-size, 1vw);\n      width: 100%;\n      height: 100%;\n      border-radius: var(--button-border-radius, 3px);\n      box-sizing: border-box;\n      /* border: var(--button-inner-border-width, 1px) solid var(--button-inner-border-color, #fff); */\n      background-color: var(--button-inner-color, #222);\n   }\n\n   :host([disabled]) .inner-content {\n      border-color: transparent;\n      background-color: var(--button-inner-disabled-color, #999);\n      color: var(--button-text-disabled-color, #ff0);\n   }\n\n   :host([gaze-activated]) .inner-content {\n      color: var(--button-activation-text-color, #222);\n      border-color: transparent;\n      animation: activationAnimation var(--activation-animation-time, 150) ms ease forwards;\n   }\n\n   :host([gaze-focused]) .inner-content {\n      border-color: var(--button-focus-border-color, #59f);\n      border-width: var(--button-inner-border-width, 1px);\n      border-radius: var(--button-focus-border-radius, 0);\n   }\n\n   .inner-content slot {\n      height: 100%;\n      width: 100%;\n      display: flex;\n      align-items: center;\n      justify-content: center;\n   }\n\n   @keyframes square-dwell-animation {\n      from {\n         background-position: right bottom;\n      }\n      to {\n         background-position: left bottom;\n      }\n   }\n</style>\n\n<div class=\"inner-content\">\n   <slot></slot>\n</div>\n";
+var htmlTemplate = "<style>\n   :host {\n      display: inline-block;\n      border: var(--button-border, 1px solid transparent);\n      position: relative;\n      border-radius: var(--button-border-radius, 3pt);\n      box-sizing: border-box;\n      width: var(--button-width, 13.5vw);\n      height: var(--button-height, 5.4vw);\n      background-color: var(--button-color, rgba(56, 56, 56, 0.5));\n      padding: var(--button-dwell-thickness, 0.405vw); /* $square-button-height * 0.075; */\n      -webkit-tap-highlight-color: transparent;\n   }\n\n   :host([disabled]) {\n      cursor: default;\n      pointer-events: none;\n      opacity: var(--button-disabled-opacity, 0.5);\n   }\n\n   :host([gaze-focused]) {\n      border-radius: 0;\n      background: linear-gradient(\n         to left,\n         var(--button-color, rgba(56, 56, 56, 0.5)) 50%,\n         var(--button-dwell-color, #59f) 50%\n      );\n      background-size: 200% 200%;\n      background-repeat: repeat-y;\n      background-position: right bottom;\n   }\n\n   :host([gaze-activated]) {\n      border-radius: var(--button-border-radius, 3pt);\n   }\n\n   .inner-content {\n      color: var(--button-text-color, #fff);\n      position: relative;\n      font-size: var(--button-font-size, 1vw);\n      width: 100%;\n      height: 100%;\n      border-radius: var(--button-border-radius, 3px);\n      box-sizing: border-box;\n      font-family: var(--button-font-family, sans-serif);\n      /* border: var(--button-inner-border-width, 1px) solid var(--button-inner-border-color, #fff); */\n      background-color: var(--button-inner-color, #222);\n   }\n\n   :host([disabled]) .inner-content {\n      border-color: transparent;\n      background-color: var(--button-inner-disabled-color, #999);\n      color: var(--button-text-disabled-color, #ff0);\n   }\n\n   :host([gaze-activated]) .inner-content {\n      color: var(--button-activation-text-color, #222);\n      border-color: transparent;\n   }\n\n   :host([gaze-focused]) .inner-content {\n      border-color: var(--button-focus-border-color, #59f);\n      border-width: var(--button-inner-border-width, 1px);\n      border-radius: var(--button-focus-border-radius, 0);\n   }\n\n   .inner-content slot {\n      height: 100%;\n      width: 100%;\n      display: flex;\n      align-items: center;\n      justify-content: center;\n   }\n</style>\n\n<div class=\"inner-content\">\n   <slot></slot>\n</div>\n";
 
 const gazableSquareButtonTemplate = document.createElement('template');
 gazableSquareButtonTemplate.innerHTML = htmlTemplate;
@@ -113,7 +111,7 @@ class GazableSquareButtonElement extends GazableButtonElement {
     constructor() {
         super();
         this.attachShadow({ mode: 'open' }).append(gazableSquareButtonTemplate.content.cloneNode(true));
-        this.innerContent = this.getElementsByClassName('inner-content')[0];
+        this.innerContent = this.shadowRoot?.querySelector('.inner-content');
     }
     startActivationAnimation() {
         this.animate([
@@ -136,10 +134,12 @@ class GazableSquareButtonElement extends GazableButtonElement {
             {
                 borderColor: `rgba(var(--button-activation-color, #59f), 0.5)`,
                 background: `rgba(var(--button-activation-color, #59f), 0.3)`,
+                offset: 0.05,
             },
             {
                 borderColor: `rgba(var(--button-activation-color, #59f), 0.5)`,
                 background: `rgba(var(--button-activation-color, #59f), 1)`,
+                offset: 0.4,
             },
             {
                 borderColor: `rgba(var(--button-activation-color, #59f), 0.5)`,
