@@ -1,26 +1,27 @@
 {
    "name": "gazable-web-components",
    "version": "0.1.0",
-   "description": "A library with gazable web components",
+   "description": "A package with gazable web components",
    "type": "module",
    "module": "dist/main.js",
    "main": "dist/main.js",
    "scripts": {
       "build": "rollup -c rollup.config.js",
-      "lint": "tslint -c tslint.json 'src/**/*.ts'",
-      "tslint-check": "tslint-config-prettier-check ./tslint.json",
+      "lint": "eslint -c .eslintrc.json --ext .ts src",
       "test": "echo \"Error: no test specified\" && exit 1"
    },
    "devDependencies": {
       "@rollup/plugin-node-resolve": "^13.0.6",
       "@rollup/plugin-typescript": "^8.3.0",
+      "@typescript-eslint/eslint-plugin": "^5.1.0",
+      "@typescript-eslint/parser": "^5.1.0",
+      "eslint": "^8.1.0",
+      "eslint-config-prettier": "^8.3.0",
+      "eslint-plugin-prettier": "^4.0.0",
       "prettier": "^2.4.1",
       "rollup": "^2.58.0",
       "rollup-plugin-html": "^0.2.1",
       "rollup-plugin-string": "^3.0.0",
-      "tslint": "^6.1.3",
-      "tslint-config-prettier": "^1.18.0",
-      "tslint-plugin-prettier": "^2.3.0",
       "typescript": "^4.4.4"
    }
 }

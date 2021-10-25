@@ -10,8 +10,8 @@ export declare class GazableButtonElement extends HTMLElement {
     hasGazeFocus(): boolean;
     get gazeInteractable(): boolean;
     set gazeInteractable(val: boolean);
-    get dwellTime(): any;
-    set dwellTime(val: any);
-    get activationAnimationTime(): any;
-    set activationAnimationTime(val: any);
+    get dwellTime(): number;
+    set dwellTime(val: number);
+    get activationAnimationTime(): number;
+    set activationAnimationTime(val: number);
 }

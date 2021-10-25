@@ -80,18 +80,17 @@ export class GazableButtonElement extends HTMLElement {
    get dwellTime() {
       const dwellTime = Number(this.getAttribute('dwell-time') as string);
       if (!isNaN(dwellTime)) {
-         if (dwellTime < 0) console.error(`'dwell-time' must be larger than zero`);
+         if (dwellTime < 0) console.error(`'dwell-time' must be larger than zero`);
          return dwellTime;
       }
 
-      // @ts-ignore
-      return window?.eyeTracking?.systemDwellTime || this._defaultDwellTime;
+      return window.eyeTracking?.systemDwellTime || this._defaultDwellTime;
    }
 
    set dwellTime(val) {
       const dwellTime = Number(val);
       if (isNaN(dwellTime)) {
-         console.error(`Invalid dwell time value ${val}`);
+         console.error(`Invalid dwell time value ${val}`);
          return;
       }
 
@@ -101,18 +100,17 @@ export class GazableButtonElement extends HTMLElement {
    get activationAnimationTime() {
       const activationAnimationTime = Number(this.getAttribute('activation-animation-time') as string);
       if (!isNaN(activationAnimationTime)) {
-         if (activationAnimationTime < 0) console.error(`'activation-animation-time' must be larger than zero`);
+         if (activationAnimationTime < 0) console.error(`'activation-animation-time' must be larger than zero`);
          return activationAnimationTime;
       }
 
-      // @ts-ignore
-      return window?.eyeTracking?.activationAnimationTime || this._defaultActivationAnimationTime;
+      return window.eyeTracking?.activationAnimationTime || this._defaultActivationAnimationTime;
    }
 
    set activationAnimationTime(val) {
       const activationAnimationTime = Number(val);
       if (isNaN(activationAnimationTime)) {
-         console.error(`Invalid activation animation time value ${val}`);
+         console.error(`Invalid activation animation time value ${val}`);
          return;
       }
 

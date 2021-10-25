@@ -15,10 +15,14 @@ class GazableSquareButtonElement extends GazableButtonElement {
         this.animate([
             { border: '0px' },
             { border: '5px solid transparent', backgroundColor: 'transparent', offset: 0.5 },
-            { border: '0px', backgroundColor: 'rgba(var(--button-activation-color, #59f), var(--button-activation-opacity, 0.3))', offset: 0.75 },
-            { backgroundColor: 'transparent' }
+            {
+                border: '0px',
+                backgroundColor: 'rgba(var(--button-activation-color, #59f), var(--button-activation-opacity, 0.3))',
+                offset: 0.75,
+            },
+            { backgroundColor: 'transparent' },
         ], {
-            duration: this.activationAnimationTime
+            duration: this.activationAnimationTime,
         });
         this.innerContent.animate([
             {
@@ -48,14 +52,11 @@ class GazableSquareButtonElement extends GazableButtonElement {
         super.onActivate();
     }
     startDwell() {
-        this.dwellAnimation = this.animate([
-            { backgroundPosition: 'right bottom' },
-            { backgroundPosition: 'left bottom' }
-        ], {
+        this.dwellAnimation = this.animate([{ backgroundPosition: 'right bottom' }, { backgroundPosition: 'left bottom' }], {
             duration: this.dwellTime,
             iterations: 1,
             easing: 'linear',
-            fill: 'none'
+            fill: 'none',
         });
         this.dwellAnimation.onfinish = () => this.click();
     }
