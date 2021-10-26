@@ -7,6 +7,7 @@ gazableSquareButtonTemplate.innerHTML = htmlTemplate;
 export class GazableSquareButtonElement extends GazableButtonElement {
    dwellAnimation: Animation | undefined = undefined;
    innerContent: HTMLElement;
+   activationColorRgb = '146, 188, 255'; //#92bcff
 
    constructor() {
       super();
@@ -16,13 +17,13 @@ export class GazableSquareButtonElement extends GazableButtonElement {
    }
 
    startActivationAnimation() {
-      this.animate(
+      const activationAnimation = this.animate(
          [
             { border: '0px' },
             { border: '5px solid transparent', backgroundColor: 'transparent', offset: 0.5 },
             {
                border: '0px',
-               backgroundColor: 'rgba(var(--button-activation-color, #59f), var(--button-activation-opacity, 0.3))',
+               backgroundColor: `rgba(var(--button-activation-color-rgb, ${this.activationColorRgb}), var(--button-activation-opacity, 0.3))`,
                offset: 0.75,
             },
             { backgroundColor: 'transparent' },
@@ -32,25 +33,29 @@ export class GazableSquareButtonElement extends GazableButtonElement {
          }
       );
 
+      this.setAttribute('gaze-activated', '');
+      activationAnimation.oncancel = () => this.removeAttribute('gaze-activated');
+      activationAnimation.onfinish = () => this.removeAttribute('gaze-activated');
+
       this.innerContent.animate(
          [
             {
-               borderColor: `rgba(var(--button-activation-color, #59f), 0.5)`,
-               background: `rgba(var(--button-activation-color, #59f), var(--button-activation-opacity, 0.3))`,
+               borderColor: `rgba(var(--button-activation-color-rgb, ${this.activationColorRgb}), 0.5)`,
+               background: `rgba(var(--button-activation-color-rgb, ${this.activationColorRgb}), var(--button-activation-opacity, 0.3))`,
             },
             {
-               borderColor: `rgba(var(--button-activation-color, #59f), 0.5)`,
-               background: `rgba(var(--button-activation-color, #59f), 0.3)`,
+               borderColor: `rgba(var(--button-activation-color-rgb, ${this.activationColorRgb}), 0.5)`,
+               background: `rgba(var(--button-activation-color-rgb, ${this.activationColorRgb}), 0.3)`,
                offset: 0.05,
             },
             {
-               borderColor: `rgba(var(--button-activation-color, #59f), 0.5)`,
-               background: `rgba(var(--button-activation-color, #59f), 1)`,
+               borderColor: `rgba(var(--button-activation-color-rgb, ${this.activationColorRgb}), 0.5)`,
+               background: `rgba(var(--button-activation-color-rgb, ${this.activationColorRgb}), 1)`,
                offset: 0.4,
             },
             {
-               borderColor: `rgba(var(--button-activation-color, #59f), 0.5)`,
-               background: `rgba(var(--button-activation-color, #59f), 1)`,
+               borderColor: `rgba(var(--button-activation-color-rgb, ${this.activationColorRgb}), 0.5)`,
+               background: `rgba(var(--button-activation-color-rgb, ${this.activationColorRgb}), 1)`,
             },
          ],
          {
@@ -60,6 +65,7 @@ export class GazableSquareButtonElement extends GazableButtonElement {
          }
       );
    }
+
    override onActivate() {
       this.startActivationAnimation();
       super.onActivate();

@@ -28,8 +28,8 @@ export default [
       input,
       output: [
          {
-            file: 'dist/bundle.esm.js',
-            format: 'esm',
+            file: 'dist/bundle.js',
+            format: 'iife',
          },
       ],
       plugins: [

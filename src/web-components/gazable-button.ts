@@ -25,7 +25,7 @@ export class GazableButtonElement extends HTMLElement {
    }
 
    #onGazeOver = () => {
-      this.setAttribute('gaze-focused', true.toString());
+      this.setAttribute('gaze-focused', '');
       this.startDwell();
    };
 
@@ -71,7 +71,7 @@ export class GazableButtonElement extends HTMLElement {
 
    set gazeInteractable(val) {
       if (val) {
-         this.setAttribute('data-tdx-interactor', true.toString());
+         this.setAttribute('data-tdx-interactor', '');
       } else {
          this.removeAttribute('data-tdx-interactor');
       }

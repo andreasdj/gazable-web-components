@@ -8,12 +8,53 @@
          html {
             font-family: 'Clear Sans', 'Helvetica Neue', Arial, sans-serif;
          }
+         body {
+            background-color: #2e2d2d;
+            display: grid;
+            grid-template-columns: auto auto auto auto auto auto;
+            grid-column-gap: 2vw;
+            grid-row-gap: 2vw;
+         }
+         gazable-square-button.accent-main {
+            --button-dwell-color: rgb(62, 133, 247); /* #3e85f7 */
+            --button-inner-background-color: rgb(62, 133, 247);
+            --button-activation-color-rgb: 62, 133, 247;
+            --button-disabled-inner-color: rgb(62, 133, 247);
+            --button-disabled-text-color: #fafafa;
+            --button-inner-border-color: rgb(62, 133, 247);
+            --button-focused-inner-border-width: 3px;
+            --button-focused-border-color: #fafafa;
+         }
+
+         gazable-square-button.white {
+            --button-dwell-color: rgb(62, 133, 247); /* #3e85f7 */
+            --button-activation-color-rgb: 62, 133, 247;
+            --button-inner-background-color: #fafafa; /* #fafafa */
+            --button-disabled-inner-color: #fafafa;
+            --button-text-color: #111;
+            --button-disabled-text-color: #888;
+            --button-focused-inner-border-width: 3px;
+            --button-focused-border-color: rgb(62, 133, 247);
+         }
       </style>
    </head>
 
    <body>
       <!-- Runs custom element -->
-      <gazable-square-button onclick="alert('Hi!')">Click me!</gazable-square-button>
+      <gazable-square-button onclick="console.log('dark button')">Dark button</gazable-square-button>
+      <gazable-square-button onclick="console.log('dark button')" disabled>Disabled button</gazable-square-button>
+      <gazable-square-button class="white" onclick="console.log('light button')"
+         >Light white button</gazable-square-button
+      >
+      <gazable-square-button class="white" onclick="console.log('light button')" disabled
+         >Disabled white button</gazable-square-button
+      >
+      <gazable-square-button class="accent-main" onclick="console.log('accent-main button')"
+         >Accent main button</gazable-square-button
+      >
+      <gazable-square-button class="accent-main" onclick="console.log('accent-main button')" disabled
+         >Disabled accent main button</gazable-square-button
+      >
 
       <script src="dist/web-components/gazable-square-button.js" type="module"></script>
    </body>

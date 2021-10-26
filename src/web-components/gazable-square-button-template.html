@@ -7,9 +7,10 @@
       box-sizing: border-box;
       width: var(--button-width, 13.5vw);
       height: var(--button-height, 5.4vw);
-      background-color: var(--button-color, rgba(56, 56, 56, 0.5));
+      background-color: var(--button-dwell-background-color, rgba(56, 56, 56, 0.5));
       padding: var(--button-dwell-thickness, 0.405vw); /* $square-button-height * 0.075; */
       -webkit-tap-highlight-color: transparent;
+      user-select: none;
    }
 
    :host([disabled]) {
@@ -22,8 +23,8 @@
       border-radius: 0;
       background: linear-gradient(
          to left,
-         var(--button-color, rgba(56, 56, 56, 0.5)) 50%,
-         var(--button-dwell-color, #59f) 50%
+         var(--button-dwell-background-color, rgba(56, 56, 56, 0.5)) 50%,
+         var(--button-dwell-color, #92bcff) 50%
       );
       background-size: 200% 200%;
       background-repeat: repeat-y;
@@ -35,33 +36,39 @@
    }
 
    .inner-content {
+      display: flex;
+      justify-content: center;
+      align-items: center;
       color: var(--button-text-color, #fff);
-      position: relative;
       font-size: var(--button-font-size, 1vw);
+      font-weight: var(--button-font-weight, bold);
       width: 100%;
       height: 100%;
       border-radius: var(--button-border-radius, 3px);
       box-sizing: border-box;
       font-family: var(--button-font-family, sans-serif);
-      /* border: var(--button-inner-border-width, 1px) solid var(--button-inner-border-color, #fff); */
-      background-color: var(--button-inner-color, #222);
+      border: var(--button-inner-border-width, 1px) solid var(--button-inner-border-color, #fff);
+      background-color: var(--button-inner-background-color, #222);
+      text-align: center;
+      transition: border 200ms ease-out;
    }
 
    :host([disabled]) .inner-content {
       border-color: transparent;
-      background-color: var(--button-inner-disabled-color, #999);
-      color: var(--button-text-disabled-color, #ff0);
+      background-color: var(--button-disabled-inner-color, #383838);
+      color: var(--button-disabled-text-color, #989899);
    }
 
    :host([gaze-activated]) .inner-content {
-      color: var(--button-activation-text-color, #222);
+      color: var(--button-activated-text-color, #111);
       border-color: transparent;
    }
 
-   :host([gaze-focused]) .inner-content {
-      border-color: var(--button-focus-border-color, #59f);
-      border-width: var(--button-inner-border-width, 1px);
-      border-radius: var(--button-focus-border-radius, 0);
+   :host([gaze-focused]) .inner-content,
+   :host(:hover) .inner-content {
+      border-color: var(--button-focused-border-color, #92bcff);
+      border-width: var(--button-focused-inner-border-width, 3px);
+      border-radius: var(--button-focused-border-radius, 0);
    }
 
    .inner-content slot {
