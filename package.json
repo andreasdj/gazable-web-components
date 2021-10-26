@@ -5,6 +5,9 @@
    "type": "module",
    "module": "dist/main.js",
    "main": "dist/main.js",
+   "files": [
+      "dist/*"
+   ],
    "scripts": {
       "start": "rollup -c rollup.config.js --watch",
       "build": "rollup -c rollup.config.js",
