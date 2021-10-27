@@ -40,21 +40,17 @@ export class GazableSquareButtonElement extends GazableButtonElement {
       this.innerContent.animate(
          [
             {
-               borderColor: `rgba(var(--button-activation-color-rgb, ${this.activationColorRgb}), 0.5)`,
                background: `rgba(var(--button-activation-color-rgb, ${this.activationColorRgb}), var(--button-activation-opacity, 0.3))`,
             },
             {
-               borderColor: `rgba(var(--button-activation-color-rgb, ${this.activationColorRgb}), 0.5)`,
                background: `rgba(var(--button-activation-color-rgb, ${this.activationColorRgb}), 0.3)`,
                offset: 0.05,
             },
             {
-               borderColor: `rgba(var(--button-activation-color-rgb, ${this.activationColorRgb}), 0.5)`,
                background: `rgba(var(--button-activation-color-rgb, ${this.activationColorRgb}), 1)`,
                offset: 0.4,
             },
             {
-               borderColor: `rgba(var(--button-activation-color-rgb, ${this.activationColorRgb}), 0.5)`,
                background: `rgba(var(--button-activation-color-rgb, ${this.activationColorRgb}), 1)`,
             },
          ],

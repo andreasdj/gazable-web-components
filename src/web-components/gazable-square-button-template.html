@@ -47,10 +47,10 @@
       border-radius: var(--button-border-radius, 3px);
       box-sizing: border-box;
       font-family: var(--button-font-family, sans-serif);
-      border: var(--button-inner-border-width, 1px) solid var(--button-inner-border-color, #fff);
+      box-shadow: inset 0px 0px 1px var(--button-inner-border-width, 1px) var(--button-inner-border-color, #fff);
       background-color: var(--button-inner-background-color, #222);
       text-align: center;
-      transition: border 200ms ease-out;
+      transition: box-shadow 200ms ease-out, border-radius 200ms ease-out;
    }
 
    :host([disabled]) .inner-content {
@@ -62,12 +62,15 @@
    :host([gaze-activated]) .inner-content {
       color: var(--button-activated-text-color, #111);
       border-color: transparent;
+      box-shadow: inset 0px 0px 1px var(--button-focused-inner-border-width, 3px)
+         rgba(var(--button-activation-color-rgb, 146, 188, 255), 0.5);
    }
 
    :host([gaze-focused]) .inner-content,
    :host(:hover) .inner-content {
       border-color: var(--button-focused-border-color, #92bcff);
-      border-width: var(--button-focused-inner-border-width, 3px);
+      box-shadow: inset 0px 0px 1px var(--button-focused-inner-border-width, 3px)
+         var(--button-focused-border-color, #92bcff);
       border-radius: var(--button-focused-border-radius, 0);
    }
 
